@@ -6,7 +6,7 @@ from pico2d import *
 import game_framework
 import game_world
 
-from character import Character
+from Character import Character
 
 
 import title_state
@@ -26,9 +26,11 @@ class Grass:
     def __init__(self):
         self.image = load_image('moonlighter_main.jpg')
 
+    def update(self):
+        pass
+
     def draw(self):
         self.image.draw(400, 300)
-
 
 
 # class Boy:
@@ -50,6 +52,8 @@ def enter():
     global grass, character
     character = Character()
     grass = Grass()
+    game_world.add_object(grass, 0)
+    game_world.add_object(character, 1)
 
 
 def exit():
@@ -70,15 +74,21 @@ def resume():
 
 def handle_events():
     events = get_events()
-
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
-        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_d):
-            keyboard_x = 10
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            game_framework.quit()
+        else:
+            character.handle_event(event)
 
-        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_a):
-            keyboard_x = 10
+        # if event.type == SDL_QUIT:
+        #     game_framework.quit()
+        # elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_d):
+        #     keyboard_x = 10
+        #
+        # elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_a):
+        #     keyboard_x = 10
 
 def update():
     for game_object in game_world.all_objects():
@@ -89,9 +99,12 @@ def update():
 
 def draw():
     clear_canvas()
-    # grass.draw()
-    # boy.draw()
-    # character.draw()
     for game_object in game_world.all_objects():
         game_object.draw()
     update_canvas()
+
+
+    # grass.draw()
+    # boy.draw()
+    # character.draw()
+
