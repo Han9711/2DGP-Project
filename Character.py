@@ -1,7 +1,7 @@
-import game_framework
 from pico2d import *
-
+import game_framework
 import game_world
+
 
 # Character Run Speed
 # fill expressions correctly
@@ -33,82 +33,82 @@ key_event_table = {
 
 class IdleState:
 
-    def enter(boy, event):
+    def enter(character, event):
         if event == RIGHT_DOWN:
-            boy.velocity += RUN_SPEED_PPS
+            character.velocity += RUN_SPEED_PPS
         elif event == LEFT_DOWN:
-            boy.velocity -= RUN_SPEED_PPS
+            character.velocity -= RUN_SPEED_PPS
         elif event == RIGHT_UP:
-            boy.velocity -= RUN_SPEED_PPS
+            character.velocity -= RUN_SPEED_PPS
         elif event == LEFT_UP:
-            boy.velocity += RUN_SPEED_PPS
-        boy.timer = 1000
+            character.velocity += RUN_SPEED_PPS
+        character.timer = 1000
 
-    def exit(boy, event):
+    def exit(character, event):
         if event == SPACE:
-            boy.fire_ball()
+            character.fire_ball()
         pass
 
-    def do(boy):
-        boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
-        boy.timer -= 1
-        if boy.timer == 0:
-            boy.add_event(SLEEP_TIMER)
+    def do(character):
+        character.frame = (character.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+        character.timer -= 1
+        if character.timer == 0:
+            character.add_event(SLEEP_TIMER)
 
-    def draw(boy):
-        if boy.dir == 1:
-            boy.image.clip_draw(int(boy.frame) * 100, 300, 100, 100, boy.x, boy.y)
+    def draw(character):
+        if character.dir == 1:
+            character.image.clip_draw(int(character.frame) * 100, 300, 100, 100, character.x, character.y)
         else:
-            boy.image.clip_draw(int(boy.frame) * 100, 200, 100, 100, boy.x, boy.y)
+            character.image.clip_draw(int(character.frame) * 100, 200, 100, 100, character.x, character.y)
 
 
 class RunState:
 
-    def enter(boy, event):
+    def enter(character, event):
         if event == RIGHT_DOWN:
-            boy.velocity += RUN_SPEED_PPS
+            character.velocity += RUN_SPEED_PPS
         elif event == LEFT_DOWN:
-            boy.velocity -= RUN_SPEED_PPS
+            character.velocity -= RUN_SPEED_PPS
         elif event == RIGHT_UP:
-            boy.velocity -= RUN_SPEED_PPS
+            character.velocity -= RUN_SPEED_PPS
         elif event == LEFT_UP:
-            boy.velocity += RUN_SPEED_PPS
-        boy.dir = clamp(-1, boy.velocity, 1)
+            character.velocity += RUN_SPEED_PPS
+        character.dir = clamp(-1, character.velocity, 1)
         pass
 
-    def exit(boy, event):
+    def exit(character, event):
         if event == SPACE:
-            boy.fire_ball()
+            character.fire_ball()
 
-    def do(boy):
-        boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
-        boy.x += boy.velocity * game_framework.frame_time
-        boy.x = clamp(25, boy.x, 1600 - 25)
+    def do(character):
+        character.frame = (character.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+        character.x += character.velocity * game_framework.frame_time
+        character.x = clamp(25, character.x, 1600 - 25)
 
     @staticmethod
-    def draw(boy):
-        if boy.dir == 1:
-            boy.image.clip_draw(int(boy.frame) * 100, 100, 100, 100, boy.x, boy.y)
+    def draw(character):
+        if character.dir == 1:
+            character.image.clip_draw(int(character.frame) * 100, 100, 100, 100, character.x, character.y)
         else:
-            boy.image.clip_draw(int(boy.frame) * 100, 0, 100, 100, boy.x, boy.y)
+            character.image.clip_draw(int(character.frame) * 100, 0, 100, 100, character.x, character.y)
 
 
 class SleepState:
 
-    def enter(boy, event):
-        boy.frame = 0
+    def enter(character, event):
+        character.frame = 0
 
-    def exit(boy, event):
+    def exit(character, event):
         pass
 
-    def do(boy):
-        boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+    def do(character):
+        character.frame = (character.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
 
-    def draw(boy):
-        if boy.dir == 1:
-            boy.image.clip_composite_draw(int(boy.frame) * 100, 300, 100, 100, 3.141592 / 2, '', boy.x - 25, boy.y - 25, 100, 100)
+    def draw(character):
+        if character.dir == 1:
+            character.image.clip_composite_draw(int(character.frame) * 100, 300, 100, 100, 3.141592 / 2, '', character.x - 25, character.y - 25, 100, 100)
         else:
-            boy.image.clip_composite_draw(int(boy.frame) * 100, 200, 100, 100, -3.141592 / 2, '', boy.x + 25, boy.y - 25, 100, 100)
+            character.image.clip_composite_draw(int(character.frame) * 100, 200, 100, 100, -3.141592 / 2, '', character.x + 25, character.y - 25, 100, 100)
 
 
 

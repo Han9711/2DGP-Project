@@ -6,13 +6,14 @@ from pico2d import *
 import game_framework
 import game_world
 
+from character import Character
 
 
 import title_state
 
 name = "MainState"
 
-boy = None
+character = None
 grass = None
 font = None
 keyboard_x = 0
@@ -30,31 +31,33 @@ class Grass:
 
 
 
-class Boy:
-    def __init__(self):
-        self.x, self.y = 400, 300
-        self.frame = 0
-        self.image = load_image('run_animation.png')
-        self.dir = 1
-
-    def update(self):
-        # self.frame = (self.frame + 1) % 8
-        self.x+=keyboard_x
-
-    def draw(self):
-        self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
+# class Boy:
+#     def __init__(self):
+#         self.x, self.y = 400, 300
+#         self.frame = 0
+#         self.image = load_image('run_animation.png')
+#         self.dir = 1
+#
+#     def update(self):
+#         # self.frame = (self.frame + 1) % 8
+#         self.x+=keyboard_x
+#
+#     def draw(self):
+#         self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
 
 
 def enter():
-    global boy, grass
-    boy = Boy()
+    global grass, character
+    character = Character()
     grass = Grass()
 
 
 def exit():
-    global boy, grass
-    del(boy)
-    del(grass)
+    game_world.clear()
+
+    # global character, grass
+    # del(character)
+    # del(grass)
 
 
 def pause():
@@ -78,11 +81,17 @@ def handle_events():
             keyboard_x = 10
 
 def update():
-    boy.update()
+    for game_object in game_world.all_objects():
+        game_object.update()
+
+    # character.update()
 
 
 def draw():
     clear_canvas()
-    grass.draw()
-    boy.draw()
+    # grass.draw()
+    # boy.draw()
+    # character.draw()
+    for game_object in game_world.all_objects():
+        game_object.draw()
     update_canvas()
