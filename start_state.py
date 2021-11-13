@@ -37,7 +37,6 @@ def draw():
     update_canvas()
     pass
 
-#123
 
 
 
