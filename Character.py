@@ -30,6 +30,7 @@ key_event_table = {
 
 
 # Character States
+# 캐릭터 프레임 46 x 50
 
 class IdleState:
 
@@ -57,9 +58,11 @@ class IdleState:
 
     def draw(character):
         if character.dir == 1:
-            character.image.clip_draw(int(character.frame) * 100, 300, 100, 100, character.x, character.y)
+            character.image.clip_draw(int(character.frame) * 46, 150, 46, 50, character.x, character.y)
+            # character.image.clip_draw(int(character.frame) * 100, 300, 100, 100, character.x, character.y)
         else:
-            character.image.clip_draw(int(character.frame) * 100, 200, 100, 100, character.x, character.y)
+            character.image.clip_draw(int(character.frame) * 46, 150, 46, 50, character.x, character.y)
+            # character.image.clip_draw(int(character.frame) * 100, 200, 100, 100, character.x, character.y)
 
 
 class RunState:
@@ -88,9 +91,11 @@ class RunState:
     @staticmethod
     def draw(character):
         if character.dir == 1:
-            character.image.clip_draw(int(character.frame) * 100, 100, 100, 100, character.x, character.y)
+            character.image.clip_draw(int(character.frame) * 46, 0, 46, 50, character.x, character.y)
+            # character.image.clip_draw(int(character.frame) * 100, 100, 100, 100, character.x, character.y)
         else:
-            character.image.clip_draw(int(character.frame) * 100, 0, 100, 100, character.x, character.y)
+            character.image.clip_draw(int(character.frame) * 46, 100, 46, 50, character.x, character.y)
+            # character.image.clip_draw(int(character.frame) * 100, 0, 100, 100, character.x, character.y)
 
 
 class SleepState:
