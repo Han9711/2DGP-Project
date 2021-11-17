@@ -7,6 +7,7 @@ import game_framework
 import game_world
 
 from Character import Character
+from background import BackGround
 
 
 import title_state
@@ -14,7 +15,7 @@ import title_state
 name = "MainState"
 
 character = None
-grass = None
+background = None
 font = None
 keyboard_x = 0
 
@@ -22,38 +23,29 @@ keyboard_x = 0
 # bgm.set_volume(64)
 # bgm.repeat_play()
 
-class Grass:
-    def __init__(self):
-        self.image = load_image('moonlighter_main.jpg')
+def collide(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_bb()
+    left_b, bottom_b, right_b, top_b = b.get_bb()
 
-    def update(self):
-        pass
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if top_a < bottom_b: return False
+    if bottom_a > top_b: return False
 
-    def draw(self):
-        self.image.draw(400, 300)
+    return True
 
-
-# class Boy:
-#     def __init__(self):
-#         self.x, self.y = 400, 300
-#         self.frame = 0
-#         self.image = load_image('run_animation.png')
-#         self.dir = 1
-#
-#     def update(self):
-#         # self.frame = (self.frame + 1) % 8
-#         self.x+=keyboard_x
-#
-#     def draw(self):
-#         self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
 
 
 def enter():
-    global grass, character
+    global background, character
     character = Character()
-    grass = Grass()
-    game_world.add_object(grass, 0)
+    background = BackGround()
+    game_world.add_object(background, 1)
     game_world.add_object(character, 1)
+
+    # global balls
+    # balls = [Ball() for i in range(10)]
+    # game_world.add_objects(balls, 1)
 
 
 def exit():

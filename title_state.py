@@ -1,14 +1,21 @@
 import game_framework
 from pico2d import *
 import main_state
+import game_world
 
 name = "TitleState"
 image = None
+font_32 = None
+font_64 = None
+
 
 
 def enter():
     global image
-    image = load_image('moonlighter_title.jpg')
+    image = load_image('Texture/moonlighter_title.jpg')
+
+    font_64 = load_font('DungGeunMo.TTF', 64)
+    font_32 = load_font('DungGeunMo.TTF', 32)
 
 def exit():
     global image
