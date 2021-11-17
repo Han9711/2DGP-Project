@@ -18,15 +18,24 @@ ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 8       # 내 스프라이트에 따라 변동가능
 
 # Character Event
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SLEEP_TIMER, SPACE = range(6)
+RIGHT_DOWN, LEFT_DOWN, UPKEY_DOWN, DOWNKEY_DOWN, UPKEY_UP, DOWNKEY_UP, RIGHT_UP, LEFT_UP, SLEEP_TIMER, SPACE = range(10)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
     (SDL_KEYDOWN, SDLK_LEFT): LEFT_DOWN,
     (SDL_KEYUP, SDLK_RIGHT): RIGHT_UP,
     (SDL_KEYUP, SDLK_LEFT): LEFT_UP,
+    (SDL_KEYDOWN, SDLK_UP): UPKEY_DOWN,
+    (SDL_KEYDOWN, SDLK_DOWN): DOWNKEY_DOWN,
+    (SDL_KEYUP, SDLK_UP): UPKEY_UP,
+    (SDL_KEYUP, SDLK_DOWN): DOWNKEY_UP,
     (SDL_KEYDOWN, SDLK_SPACE): SPACE
 }
+
+key_map = {
+    RIGHT_DOWN: 1, LEFT_DOWN: 2, UPKEY_DOWN: 3, DOWNKEY_DOWN: 4
+}
+
 
 
 # Character States
@@ -89,6 +98,8 @@ class RunState:
         character.x += character.velocity * game_framework.frame_time
         character.x = clamp(25, character.x, 1600 - 25)
 
+
+
     @staticmethod
     def draw(character):
         if character.dir == 1:
@@ -119,8 +130,8 @@ class RunState:
 
 
 next_state_table = {
-    IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, SPACE: IdleState},            #SLEEP_TIMER: SleepState
-    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, SPACE: RunState},
+    IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, UPKEY_DOWN: RunState, UPKEY_UP:RunState, DOWNKEY_DOWN:RunState, DOWNKEY_UP: RunState, SPACE: IdleState},            #SLEEP_TIMER: SleepState
+    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, UPKEY_DOWN:IdleState, UPKEY_UP:IdleState, DOWNKEY_DOWN: IdleState, DOWNKEY_UP: IdleState, SPACE: RunState},
     # SleepState: {LEFT_DOWN: RunState, RIGHT_DOWN: RunState, LEFT_UP: RunState, RIGHT_UP: RunState, SPACE: IdleState}
 }
 
