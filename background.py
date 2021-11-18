@@ -5,7 +5,7 @@ import game_framework
 class BackGround:
 
     def __init__(self):
-        self.image = load_image('Texture/moonlighter_main.jpg')
+        self.image = load_image('Texture/Map.png')
 
     def update(self):
         pass

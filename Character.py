@@ -32,10 +32,6 @@ key_event_table = {
     (SDL_KEYDOWN, SDLK_SPACE): SPACE
 }
 
-key_map = {
-    RIGHT_DOWN: 1, LEFT_DOWN: 2, UPKEY_DOWN: 3, DOWNKEY_DOWN: 4
-}
-
 
 
 # Character States
@@ -179,9 +175,13 @@ class Character:
         self.velocity_x = 0
         self.velocity_y = 0
         self.frame = 0
+        self.heart = 3
         self.event_que = []
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
+
+        # 사운드
+
 
     def get_bb(self):
         return self.x - 22, self.y - 22, self.x + 22, self.y + 25

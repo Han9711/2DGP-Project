@@ -11,7 +11,7 @@ font_64 = None
 
 
 def enter():
-    global image
+    global image, font_64, font_32
     image = load_image('Texture/moonlighter_title.jpg')
 
     font_64 = load_font('DungGeunMo.TTF', 64)
@@ -36,6 +36,8 @@ def handle_events():
 def draw():
     clear_canvas()
     image.draw(400, 300)
+    font_64.draw(200, 300, 'MoonLighter', (255, 0, 0))
+    font_32.draw(240, 50, 'Press Space to Start', (0, 0, 255))
     update_canvas()
 
 
