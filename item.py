@@ -7,9 +7,10 @@ class Heart:
     image = None
 
     def __init__(self):
+        self.x, self.y = random.randint(100, 800 - 25), random.randint(100, 600 - 25)
         if Heart.image is None:
             Heart.image = load_image('Texture/heart.png')
-            self.x, self.y = random.randint(100, 800-25), random.randint(100, 600-25)
+
 
 
     def update(self):

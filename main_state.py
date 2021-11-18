@@ -59,8 +59,8 @@ def enter():
     jelly_monsters = [Jelly_Monster() for i in range(5)]
     game_world.add_objects(jelly_monsters, 1)
 
-    global heart, hearts
-    hearts = [Heart() for i in range(1)]
+    global hearts
+    hearts = [Heart() for i in range(5)]
     game_world.add_objects(hearts, 1)
 
     global hud_hp
@@ -102,14 +102,16 @@ def update():
 
     for heart in hearts:
         if collide(character, heart):
+            heart.x, heart.y = 0, 0
             hearts.remove(heart)
-            game_world.remove_object(heart)
+            heart.remove()
             hud_hp.heart += 1
-        # if collide(character, heart):
-        #     heart.x, heart.y = 0, 0
-        #     hearts.remove(heart)
-        #     heart.remove()
-        #     hud_hp.heart += 1
+
+
+
+        # hearts.remove(heart)
+        # game_world.remove_object(heart)
+        # hud_hp.heart += 1
 
 
     # character.update()
