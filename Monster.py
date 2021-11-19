@@ -24,7 +24,7 @@ class Jelly_Monster:
         pass
 
     def update(self):
-        # self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
 
         self.x -= self.velocity_x * game_framework.frame_time
         self.y -= self.velocity_y * game_framework.frame_time
