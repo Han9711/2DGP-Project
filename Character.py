@@ -3,6 +3,9 @@ import game_framework
 import game_world
 
 
+
+
+
 # Character Run Speed
 # fill expressions correctly
 PIXEL_PER_METER = (10.0 / 0.3) # 10 pixel 30 cm
@@ -158,7 +161,7 @@ class RunState:
 
 next_state_table = {
     IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, UPKEY_DOWN: RunState, UPKEY_UP:RunState, DOWNKEY_DOWN:RunState, DOWNKEY_UP: RunState, SPACE: IdleState},            #SLEEP_TIMER: SleepState
-    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, UPKEY_DOWN:IdleState, UPKEY_UP:IdleState, DOWNKEY_DOWN: IdleState, DOWNKEY_UP: IdleState, SPACE: RunState},
+    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, UPKEY_UP:IdleState, DOWNKEY_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, UPKEY_DOWN:IdleState, DOWNKEY_DOWN: IdleState, SPACE: RunState},
     # SleepState: {LEFT_DOWN: RunState, RIGHT_DOWN: RunState, LEFT_UP: RunState, RIGHT_UP: RunState, SPACE: IdleState}
 }
 

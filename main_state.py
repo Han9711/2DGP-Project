@@ -56,11 +56,11 @@ def enter():
     game_world.add_object(character, 1)
 
     global monsters, jelly_monsters
-    jelly_monsters = [Jelly_Monster() for i in range(5)]
+    jelly_monsters = [Jelly_Monster() for i in range(1)]
     game_world.add_objects(jelly_monsters, 1)
 
     global hearts
-    hearts = [Heart() for i in range(5)]
+    hearts = [Heart() for i in range(1)]
     game_world.add_objects(hearts, 1)
 
     global hud_hp
