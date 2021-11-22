@@ -15,7 +15,8 @@ class Sword:
 
 
     def draw(self):
-        self.image.draw(self.x, self.y, 50, 50)
+        self.image.draw(self.x, self.y, 40, 40)
+        draw_rectangle(*self.get_bb())
         pass
 
     def update(self):
@@ -23,6 +24,9 @@ class Sword:
         for event in events:
             if event.type == SDL_MOUSEMOTION:
                 self.x, self.y = event.x, 600 - 1 - event.y
+
+    def get_bb(self):
+        return self.x - 20, self.y - 20, self.x + 20, self.y + 20
 
 
 
