@@ -9,9 +9,8 @@ import game_world
 class Sword:
 
     def __init__(self):
+        self.x, self.y = 500, 500
         self.image = load_image('Texture/sword.png')
-        self.x
-        self.y
         self.velocity = 0
 
 
@@ -19,11 +18,11 @@ class Sword:
         self.image.draw(self.x, self.y, 50, 50)
         pass
 
-    def update_mouseposition(self):
+    def update(self):
         events = get_events()
         for event in events:
             if event.type == SDL_MOUSEMOTION:
-                self.x, self.y = event.x, event.y
+                self.x, self.y = event.x, 600 - 1 - event.y
 
 
 
