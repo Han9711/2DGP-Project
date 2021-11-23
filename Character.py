@@ -3,6 +3,7 @@ import game_framework
 import game_world
 
 from ball import Ball
+from weapon import Sword
 
 
 
@@ -188,6 +189,10 @@ class Character:
     def fire_ball(self):
         ball = Ball(self.x, self.y, self.dir*3)
         game_world.add_object(ball, 1)
+        pass
+
+    def get_sword(self):
+        sword = Sword(self.x, self.y)
         pass
 
 

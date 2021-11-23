@@ -10,8 +10,8 @@ class Sword:
 
     def __init__(self):
         self.x, self.y = 500, 500
-        self.image = load_image('Texture/sword.png')
         self.velocity = 0
+        self.image = load_image('Texture/sword.png')
 
 
     def draw(self):
@@ -25,6 +25,7 @@ class Sword:
         #     if event.type == SDL_MOUSEMOTION:
         #         self.x, self.y = event.x, 600 - 1 - event.y
         pass
+
 
     def get_bb(self):
         return self.x - 20, self.y - 20, self.x + 20, self.y + 20

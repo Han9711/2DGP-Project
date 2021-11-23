@@ -11,6 +11,7 @@ from background import BackGround
 from Monster import Jelly_Monster
 from item import Heart
 from HUD_heart import Hp
+from weapon import Sword
 
 
 
@@ -24,6 +25,7 @@ monsters = []
 jelly_monsters = []
 heart = []
 hearts = []
+sword = []
 
 font = None
 keyboard_x = 0
@@ -68,6 +70,10 @@ def enter():
     global hud_hp
     hud_hp = Hp()
     game_world.add_object(hud_hp, 1)
+
+    global sword
+    sword = Sword()
+    game_world.add_object(sword, 1)
 
 
     # global balls
