@@ -76,12 +76,33 @@ class IdleState:
         #     character.add_event(SLEEP_TIMER)
 
     def draw(zelda):
-        if zelda.dir == 1:
-            zelda.image.clip_draw(int(zelda.frame) * 46, 150, 46, 50, zelda.x, zelda.y)
-            # character.image.clip_draw(int(character.frame) * 100, 300, 100, 100, character.x, character.y)
+        # if zelda.dir == 1:
+        #     zelda.image.clip_draw(int(zelda.frame) * 46, 150, 46, 50, zelda.x, zelda.y)
+        #     # character.image.clip_draw(int(character.frame) * 100, 300, 100, 100, character.x, character.y)
+        # else:
+        #     zelda.image.clip_draw(int(zelda.frame) * 46, 150, 46, 50, zelda.x, zelda.y)
+        #     # character.image.clip_draw(int(character.frame) * 100, 200, 100, 100, character.x, character.y)
+
+        # if zelda.velocity_x > 0 and zelda.dir == 1:
+        #     zelda.image.clip_draw(int(zelda.frame) * 46, 200, 46, 50, zelda.x, zelda.y)
+        # elif zelda.velocity_x < 0 and zelda.dir == -1:
+        #     zelda.image.clip_draw(int(zelda.frame) * 46, 300, 46, 50, zelda.x, zelda.y)
+        # elif zelda.velocity_y > 0 and zelda.dir == 1:
+        #     zelda.image.clip_draw(int(zelda.frame) * 46, 350, 46, 50, zelda.x, zelda.y)
+        # elif zelda.velocity_y < 0 and zelda.dir == -1:
+        #     zelda.image.clip_draw(int(zelda.frame) * 46, 250, 46, 50, zelda.x, zelda.y)
+
+        if zelda.velocity_x > 0:
+            zelda.image.clip_draw(int(zelda.frame) * 46, 200, 46, 50, zelda.x, zelda.y)
         else:
-            zelda.image.clip_draw(int(zelda.frame) * 46, 150, 46, 50, zelda.x, zelda.y)
-            # character.image.clip_draw(int(character.frame) * 100, 200, 100, 100, character.x, character.y)
+            zelda.image.clip_draw(int(zelda.frame) * 46, 300, 46, 50, zelda.x, zelda.y)
+
+        if zelda.velocity_y > 0:
+            zelda.image.clip_draw(int(zelda.frame) * 46, 350, 46, 50, zelda.x, zelda.y)
+        else:
+            zelda.image.clip_draw(int(zelda.frame) * 46, 250, 46, 50, zelda.x, zelda.y)
+
+
 
 
 class RunState:
