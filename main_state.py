@@ -13,19 +13,17 @@ from item import Heart
 from HUD_heart import Hp
 from weapon import Sword
 
-
+import server
 
 import title_state
 
 name = "MainState"
 
-character = None
+
 background = None
-monsters = []
-jelly_monsters = []
 heart = []
 hearts = []
-sword = []
+
 
 font = None
 keyboard_x = 0
@@ -55,13 +53,13 @@ def enter():
     background = BackGround()
     game_world.add_object(background, 0)
 
-    global character
-    character = Character()
-    game_world.add_object(character, 1)
 
-    global monsters, jelly_monsters
-    jelly_monsters = [Jelly_Monster() for i in range(1)]
-    game_world.add_objects(jelly_monsters, 1)
+    server.character = Character()
+    game_world.add_object(server.character, 1)
+
+
+    server.jelly_monsters = [Jelly_Monster() for i in range(1)]
+    game_world.add_objects(server.jelly_monsters, 1)
 
     global hearts
     hearts = [Heart() for i in range(1)]
@@ -71,9 +69,9 @@ def enter():
     hud_hp = Hp()
     game_world.add_object(hud_hp, 1)
 
-    global sword
-    sword = Sword()
-    game_world.add_object(sword, 1)
+
+    server.sword = Sword()
+    game_world.add_object(server.sword, 1)
 
 
     # global balls
@@ -101,7 +99,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         else:
-            character.handle_event(event)
+            server.character.handle_event(event)
 
 
 def update():
@@ -109,7 +107,7 @@ def update():
         game_object.update()
 
     for heart in hearts:
-        if collide(character, heart):
+        if collide(server.character, heart):
             heart.x, heart.y = 0, 0
             hearts.remove(heart)
             heart.remove()

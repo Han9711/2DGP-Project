@@ -10,7 +10,7 @@ class Sword:
 
     def __init__(self):
         self.x, self.y = 500, 500
-        self.velocity = 0
+        self.speed = 0
         self.image = load_image('Texture/sword.png')
 
 
