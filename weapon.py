@@ -11,6 +11,7 @@ class Sword:
 
     def __init__(self):
         self.x, self.y = 0, 0
+        self.parent = None
         self.speed = 0
         self.image = load_image('Texture/sword.png')
 
@@ -30,6 +31,6 @@ class Sword:
 
     def get_bb(self):
         return self.x - 20, self.y - 20, self.x + 20, self.y + 20
-
+        pass
 
 

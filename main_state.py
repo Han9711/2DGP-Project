@@ -111,6 +111,9 @@ def update():
         if collide(server.monsters, server.character):
             print('monster collide character')
 
+        # if collide(server.monsters, server.sword):
+        #     print('monster sword collide')
+
 
     for heart in hearts:
         if collide(server.character, heart):

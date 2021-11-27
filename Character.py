@@ -78,7 +78,7 @@ class IdleState:
     def draw(zelda):
         if zelda.dir == 1:
             zelda.right.draw(zelda.x, zelda.y)
-            # zelda.get_sword()
+            zelda.get_sword()
         elif zelda.dir == -1:
             zelda.left.draw(zelda.x, zelda.y)
 
@@ -131,7 +131,7 @@ class RunState:
         if zelda.velocity_x > 0:
             zelda.image.clip_draw(int(zelda.frame) * 46, 0, 46, 50, zelda.x, zelda.y)
             zelda.dir = 1
-            # zelda.get_sword()
+            zelda.get_sword()
             # character.image.clip_draw(int(character.frame) * 100, 100, 100, 100, character.x, character.y)
         elif zelda.velocity_x < 0:
             zelda.image.clip_draw(int(zelda.frame) * 47, 104, 47, 50, zelda.x, zelda.y)
@@ -202,12 +202,14 @@ class Character:
 
     def get_sword(self):
         server.sword = Sword()
+        server.sword.draw()
         server.sword.image.draw(self.x + 25, self.y + 5, 40, 40)
         pass
 
 
     def get_bb(self):
         return self.x - 22, self.y - 22, self.x + 22, self.y + 25
+
 
     def add_event(self, event):
         self.event_que.insert(0, event)
