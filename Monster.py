@@ -24,7 +24,7 @@ class Jelly_Monster:
         pass
 
     def update(self):
-        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+        # self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
 
         self.x -= self.velocity_x * game_framework.frame_time
         self.y -= self.velocity_y * game_framework.frame_time
@@ -34,7 +34,7 @@ class Jelly_Monster:
 
     def draw(self):
         self.image.clip_draw(int(self.frame) * 50, 70, 50, 35, self.x, self.y)    #60 x 70,  55 x 35, 3번째 칸 175
-        # draw_rectangle(*self.get_bb())
+        draw_rectangle(*self.get_bb())
         pass
 
 

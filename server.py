@@ -1,4 +1,4 @@
 character = None
-sword = []
+sword = None
 monsters = []
 jelly_monsters = []

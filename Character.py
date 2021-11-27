@@ -75,17 +75,10 @@ class IdleState:
         # if character.timer == 0:
         #     character.add_event(SLEEP_TIMER)
 
-
     def draw(zelda):
-        # if zelda.dir == 1:
-        #     zelda.image.clip_draw(int(zelda.frame) * 46, 150, 46, 50, zelda.x, zelda.y)
-        #     # character.image.clip_draw(int(character.frame) * 100, 300, 100, 100, character.x, character.y)
-        # else:
-        #     zelda.image.clip_draw(int(zelda.frame) * 46, 150, 46, 50, zelda.x, zelda.y)
-        #     # character.image.clip_draw(int(character.frame) * 100, 200, 100, 100, character.x, character.y)
-
         if zelda.dir == 1:
             zelda.right.draw(zelda.x, zelda.y)
+            # zelda.get_sword()
         elif zelda.dir == -1:
             zelda.left.draw(zelda.x, zelda.y)
 
@@ -93,8 +86,6 @@ class IdleState:
             zelda.back.draw(zelda.x, zelda.y)
         elif zelda.dir == -2:
             zelda.front.draw(zelda.x, zelda.y)
-
-
 
 
 
@@ -119,7 +110,7 @@ class RunState:
             zelda.velocity_y -= RUN_SPEED_PPS
         elif event == DOWNKEY_UP:
             zelda.velocity_y += RUN_SPEED_PPS
-        zelda.dir = clamp(-1, zelda.velocity_x, 1)
+        # zelda.dir = clamp(-1, zelda.velocity_x, 1)
         pass
 
     def exit(zelda, event):
@@ -135,17 +126,16 @@ class RunState:
         zelda.frame = (zelda.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
 
 
-
-
     @staticmethod
     def draw(zelda):
         if zelda.velocity_x > 0:
             zelda.image.clip_draw(int(zelda.frame) * 46, 0, 46, 50, zelda.x, zelda.y)
             zelda.dir = 1
+            # zelda.get_sword()
             # character.image.clip_draw(int(character.frame) * 100, 100, 100, 100, character.x, character.y)
         elif zelda.velocity_x < 0:
             zelda.image.clip_draw(int(zelda.frame) * 47, 104, 47, 50, zelda.x, zelda.y)
-            # zelda.dir = -1
+            zelda.dir = -1
             # character.image.clip_draw(int(character.frame) * 100, 0, 100, 100, character.x, character.y)
 
         if zelda.velocity_y > 0:
@@ -211,7 +201,8 @@ class Character:
         pass
 
     def get_sword(self):
-        server.sword = Sword(self.x, self.y)
+        server.sword = Sword()
+        server.sword.image.draw(self.x + 25, self.y + 5, 40, 40)
         pass
 
 

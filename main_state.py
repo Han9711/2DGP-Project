@@ -71,7 +71,7 @@ def enter():
 
 
     server.sword = Sword()
-    game_world.add_object(server.sword, 1)
+    # game_world.add_object(server.sword, 1)
 
 
     # global balls
@@ -105,6 +105,12 @@ def handle_events():
 def update():
     for game_object in game_world.all_objects():
         game_object.update()
+
+
+    for server.monsters in server.jelly_monsters:
+        if collide(server.monsters, server.character):
+            print('monster collide character')
+
 
     for heart in hearts:
         if collide(server.character, heart):
