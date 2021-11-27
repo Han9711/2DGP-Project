@@ -5,7 +5,7 @@ import game_world
 from ball import Ball
 from weapon import Sword
 
-
+import server
 
 # Character Run Speed
 # fill expressions correctly
@@ -75,6 +75,7 @@ class IdleState:
         # if character.timer == 0:
         #     character.add_event(SLEEP_TIMER)
 
+
     def draw(zelda):
         # if zelda.dir == 1:
         #     zelda.image.clip_draw(int(zelda.frame) * 46, 150, 46, 50, zelda.x, zelda.y)
@@ -83,24 +84,17 @@ class IdleState:
         #     zelda.image.clip_draw(int(zelda.frame) * 46, 150, 46, 50, zelda.x, zelda.y)
         #     # character.image.clip_draw(int(character.frame) * 100, 200, 100, 100, character.x, character.y)
 
-        # if zelda.velocity_x > 0 and zelda.dir == 1:
-        #     zelda.image.clip_draw(int(zelda.frame) * 46, 200, 46, 50, zelda.x, zelda.y)
-        # elif zelda.velocity_x < 0 and zelda.dir == -1:
-        #     zelda.image.clip_draw(int(zelda.frame) * 46, 300, 46, 50, zelda.x, zelda.y)
-        # elif zelda.velocity_y > 0 and zelda.dir == 1:
-        #     zelda.image.clip_draw(int(zelda.frame) * 46, 350, 46, 50, zelda.x, zelda.y)
-        # elif zelda.velocity_y < 0 and zelda.dir == -1:
-        #     zelda.image.clip_draw(int(zelda.frame) * 46, 250, 46, 50, zelda.x, zelda.y)
+        if zelda.dir == 1:
+            zelda.right.draw(zelda.x, zelda.y)
+        elif zelda.dir == -1:
+            zelda.left.draw(zelda.x, zelda.y)
 
-        if zelda.velocity_x > 0:
-            zelda.image.clip_draw(int(zelda.frame) * 46, 200, 46, 50, zelda.x, zelda.y)
-        else:
-            zelda.image.clip_draw(int(zelda.frame) * 46, 300, 46, 50, zelda.x, zelda.y)
+        if zelda.dir == 2:
+            zelda.back.draw(zelda.x, zelda.y)
+        elif zelda.dir == -2:
+            zelda.front.draw(zelda.x, zelda.y)
 
-        if zelda.velocity_y > 0:
-            zelda.image.clip_draw(int(zelda.frame) * 46, 350, 46, 50, zelda.x, zelda.y)
-        else:
-            zelda.image.clip_draw(int(zelda.frame) * 46, 250, 46, 50, zelda.x, zelda.y)
+
 
 
 
@@ -151,15 +145,15 @@ class RunState:
             # character.image.clip_draw(int(character.frame) * 100, 100, 100, 100, character.x, character.y)
         elif zelda.velocity_x < 0:
             zelda.image.clip_draw(int(zelda.frame) * 47, 104, 47, 50, zelda.x, zelda.y)
-            zelda.dir = -1
+            # zelda.dir = -1
             # character.image.clip_draw(int(character.frame) * 100, 0, 100, 100, character.x, character.y)
 
         if zelda.velocity_y > 0:
             zelda.image.clip_draw(int(zelda.frame) * 47, 50, 47, 50, zelda.x, zelda.y)
-            zelda.dir = 1
+            zelda.dir = 2
         elif zelda.velocity_y < 0:
             zelda.image.clip_draw(int(zelda.frame) * 47, 150, 47, 50, zelda.x, zelda.y)
-            zelda.dir = -1
+            zelda.dir = -2
 
 
 # class SleepState:
@@ -195,8 +189,12 @@ class Character:
         self.x, self.y = 800 // 2, 90
         # Character is only once created, so instance image loading is fine
         self.image = load_image('Texture/Character_Sheet.png')
+        self.front = load_image('Texture/zelda/front.png')
+        self.back = load_image('Texture/zelda/back.png')
+        self.left = load_image('Texture/zelda/left.png')
+        self.right = load_image('Texture/zelda/right.png')
         # self.font = load_font('ENCR10B.TTF', 16)
-        self.dir = 1
+        self.dir = -2
         self.velocity_x = 0
         self.velocity_y = 0
         self.frame = 0
@@ -213,7 +211,7 @@ class Character:
         pass
 
     def get_sword(self):
-        sword = Sword(self.x, self.y)
+        server.sword = Sword(self.x, self.y)
         pass
 
 
@@ -234,6 +232,7 @@ class Character:
 
     def draw(self):
         self.cur_state.draw(self)
+        debug_print('Velcotiy : ' + str(self.velocity_x) + str(self.velocity_y) + ' Dir: ' + str(self.dir))
         # self.font.draw(self.x - 60, self.y + 50, '(Time: %3.2f)' % get_time(), (255, 255, 0))
         draw_rectangle(*self.get_bb())
 
