@@ -11,7 +11,6 @@ import server
 class Sword:
 
     def __init__(self):
-        # server.character = Character()
         self.x, self.y = 0, 0
         self.parent = None
         self.speed = 0
@@ -31,14 +30,15 @@ class Sword:
         pass
 
     def Attack(self):
-
+        
 
         pass
 
 
 
     def get_bb(self):
-        return self.x - 20, self.y - 20, self.x + 20, self.y + 20
+        return server.character.x - 0, server.character.y - 10, server.character.x + 50, server.character.y + 30
+        # return self.x - 20, self.y - 20, self.x + 20, self.y + 20
         pass
 
 

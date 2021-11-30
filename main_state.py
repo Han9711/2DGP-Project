@@ -111,8 +111,9 @@ def update():
         if collide(server.monsters, server.character):
             print('monster collide character')
 
-        # if collide(server.monsters, server.sword):
-        #     print('monster sword collide')
+        if collide(server.monsters, server.sword):
+            print('monster sword collide')
+            game_world.remove_object(server.monsters)
 
 
     for heart in hearts:
