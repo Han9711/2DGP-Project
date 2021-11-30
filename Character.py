@@ -175,6 +175,8 @@ next_state_table = {
 
 class Character:
 
+    Sword_X0 = 50
+
     def __init__(self):
         self.x, self.y = 800 // 2, 90
         # Character is only once created, so instance image loading is fine
@@ -202,8 +204,8 @@ class Character:
 
     def get_sword(self):
         server.sword = Sword()
-        server.sword.draw()
-        server.sword.image.draw(self.x + 25, self.y + 5, 40, 40)
+        server.sword.image.draw(self.x + 30, self.y + 5, 40, 40)
+        draw_rectangle(self.x - 30, self.y - 5, self.x + 30, self.y + 5)
         pass
 
 

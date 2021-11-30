@@ -5,11 +5,13 @@ import game_world
 
 # 무기 클래스 생성 / 마우스 움직임에 따라 이동 / 클릭 누르면 공격
 
+
 import server
 
 class Sword:
 
     def __init__(self):
+        # server.character = Character()
         self.x, self.y = 0, 0
         self.parent = None
         self.speed = 0
@@ -27,6 +29,12 @@ class Sword:
         #     if event.type == SDL_MOUSEMOTION:
         #         self.x, self.y = event.x, 600 - 1 - event.y
         pass
+
+    def Attack(self):
+
+
+        pass
+
 
 
     def get_bb(self):
