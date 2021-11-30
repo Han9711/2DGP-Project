@@ -21,7 +21,7 @@ ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 8       # 내 스프라이트에 따라 변동가능
 
 # Character Event
-RIGHT_DOWN, LEFT_DOWN, UPKEY_DOWN, DOWNKEY_DOWN, UPKEY_UP, DOWNKEY_UP, RIGHT_UP, LEFT_UP, SLEEP_TIMER, SPACE = range(10)
+RIGHT_DOWN, LEFT_DOWN, UPKEY_DOWN, DOWNKEY_DOWN, UPKEY_UP, DOWNKEY_UP, RIGHT_UP, LEFT_UP, SLEEP_TIMER, SPACE, CTRL = range(11)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
@@ -32,7 +32,8 @@ key_event_table = {
     (SDL_KEYDOWN, SDLK_DOWN): DOWNKEY_DOWN,
     (SDL_KEYUP, SDLK_UP): UPKEY_UP,
     (SDL_KEYUP, SDLK_DOWN): DOWNKEY_UP,
-    (SDL_KEYDOWN, SDLK_SPACE): SPACE
+    (SDL_KEYDOWN, SDLK_SPACE): SPACE,
+    (SDL_KEYDOWN, SDLK_LCTRL): CTRL
 }
 
 
@@ -65,6 +66,8 @@ class IdleState:
     def exit(zelda, event):
         if event == SPACE:
             zelda.fire_ball()
+        if event == CTRL:
+            server.sword.Attack()
         pass
 
     def do(zelda):
@@ -77,7 +80,7 @@ class IdleState:
     def draw(zelda):
         if zelda.dir == 1:
             zelda.right.draw(zelda.x, zelda.y)
-            zelda.get_sword()
+            zelda.get_sword_right()
 
         elif zelda.dir == -1:
             zelda.left.draw(zelda.x, zelda.y)
@@ -131,7 +134,7 @@ class RunState:
         if zelda.velocity_x > 0:
             zelda.image.clip_draw(int(zelda.frame) * 46, 0, 46, 50, zelda.x, zelda.y)
             zelda.dir = 1
-            zelda.get_sword()
+            zelda.get_sword_right()
             # character.image.clip_draw(int(character.frame) * 100, 100, 100, 100, character.x, character.y)
         elif zelda.velocity_x < 0:
             zelda.image.clip_draw(int(zelda.frame) * 47, 104, 47, 50, zelda.x, zelda.y)
@@ -166,8 +169,8 @@ class RunState:
 
 
 next_state_table = {
-    IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, UPKEY_DOWN: RunState, UPKEY_UP:RunState, DOWNKEY_DOWN:RunState, DOWNKEY_UP: RunState, SPACE: IdleState},            #SLEEP_TIMER: SleepState
-    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, UPKEY_UP:IdleState, DOWNKEY_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, UPKEY_DOWN:IdleState, DOWNKEY_DOWN: IdleState, SPACE: RunState},
+    IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, UPKEY_DOWN: RunState, UPKEY_UP:RunState, DOWNKEY_DOWN:RunState, DOWNKEY_UP: RunState, SPACE: IdleState, CTRL: IdleState},            #SLEEP_TIMER: SleepState
+    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, UPKEY_UP:IdleState, DOWNKEY_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, UPKEY_DOWN:IdleState, DOWNKEY_DOWN: IdleState, SPACE: RunState, CTRL: RunState},
     # SleepState: {LEFT_DOWN: RunState, RIGHT_DOWN: RunState, LEFT_UP: RunState, RIGHT_UP: RunState, SPACE: IdleState}
 }
 
@@ -201,9 +204,9 @@ class Character:
         game_world.add_object(ball, 1)
         pass
 
-    def get_sword(self):
+    def get_sword_right(self):
         server.sword.image.draw(self.x + 30, self.y + 5, 40, 40)
-        server.sword.draw()
+        # server.sword.draw()
         pass
 
 

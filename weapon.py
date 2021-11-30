@@ -7,6 +7,7 @@ import game_world
 
 
 import server
+import collision
 
 class Sword:
 
@@ -18,8 +19,7 @@ class Sword:
 
 
     def draw(self):
-        # self.image.draw(self.x, self.y, 40, 40)
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
         pass
 
     def update(self):
@@ -30,8 +30,11 @@ class Sword:
         pass
 
     def Attack(self):
-        
-
+        print('Attack')
+        if collision.collide(self, server.monsters):
+            print('monster sword collide')
+            server.jelly_monsters.remove(server.monsters)
+            server.monsters.remove()
         pass
 
 
