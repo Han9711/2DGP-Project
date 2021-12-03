@@ -130,19 +130,19 @@ class RunState:
     @staticmethod
     def draw(player):
         if player.velocity_x > 0:
-            player.image.clip_draw(int(player.frame) * 100, 100, 100, 100, player.x, player.y)
+            player.image.clip_draw(int(player.frame) * 100, 500, 100, 100, player.x, player.y)
             player.dir = 1
             # character.image.clip_draw(int(character.frame) * 100, 100, 100, 100, character.x, character.y)
         elif player.velocity_x < 0:
-            player.image.clip_draw(int(player.frame) * 100, 0, 100, 100, player.x, player.y)
+            player.image.clip_draw(int(player.frame) * 100, 400, 100, 100, player.x, player.y)
             player.dir = -1
             # character.image.clip_draw(int(character.frame) * 100, 0, 100, 100, character.x, character.y)
 
         if player.velocity_y > 0:
-            player.image.clip_draw(int(player.frame) * 100, 200, 100, 100, player.x, player.y)
+            player.image.clip_draw(int(player.frame) * 100, 600, 100, 100, player.x, player.y)
             player.dir = 2
         elif player.velocity_y < 0:
-            player.image.clip_draw(int(player.frame) * 100, 300, 100, 100, player.x, player.y)
+            player.image.clip_draw(int(player.frame) * 100, 700, 100, 100, player.x, player.y)
             player.dir = -2
 
 
@@ -179,10 +179,10 @@ class Player:
         self.x, self.y = 800 // 2, 90
         # Character is only once created, so instance image loading is fine
         self.image = load_image('Texture/Player/player_sheet.png')
-        self.front = load_image('Texture/Player/front.png')
-        self.back = load_image('Texture/Player/back.png')
-        self.right = load_image('Texture/Player/right_side.png')
-        self.left = load_image('Texture/Player/left_side.png')
+        self.front = load_image('Texture/Player/front_sword_idle.png')
+        self.back = load_image('Texture/Player/back_sword_idle.png')
+        self.right = load_image('Texture/Player/right_sword_idle.png')
+        self.left = load_image('Texture/Player/left_sword_idle.png')
         # self.font = load_font('ENCR10B.TTF', 16)
         self.dir = -2
         self.velocity_x = 0
