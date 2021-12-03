@@ -43,128 +43,125 @@ key_event_table = {
 
 class IdleState:
 
-    def enter(zelda, event):
+    def enter(player, event):
         if event == RIGHT_DOWN:
-            zelda.velocity_x += RUN_SPEED_PPS
+            player.velocity_x += RUN_SPEED_PPS
         elif event == LEFT_DOWN:
-            zelda.velocity_x -= RUN_SPEED_PPS
+            player.velocity_x -= RUN_SPEED_PPS
         elif event == RIGHT_UP:
-            zelda.velocity_x -= RUN_SPEED_PPS
+            player.velocity_x -= RUN_SPEED_PPS
         elif event == LEFT_UP:
-            zelda.velocity_x += RUN_SPEED_PPS
+            player.velocity_x += RUN_SPEED_PPS
 
         if event == UPKEY_DOWN:
-            zelda.velocity_y += RUN_SPEED_PPS
+            player.velocity_y += RUN_SPEED_PPS
         elif event == UPKEY_UP:
-            zelda.velocity_y -= RUN_SPEED_PPS
+            player.velocity_y -= RUN_SPEED_PPS
         if event == DOWNKEY_DOWN:
-            zelda.velocity_y -= RUN_SPEED_PPS
+            player.velocity_y -= RUN_SPEED_PPS
         elif event == DOWNKEY_UP:
-            zelda.velocity_y += RUN_SPEED_PPS
-        zelda.timer = 1000
+            player.velocity_y += RUN_SPEED_PPS
+        player.timer = 1000
 
-    def exit(zelda, event):
+    def exit(player, event):
         if event == SPACE:
-            zelda.fire_ball()
-        if event == CTRL:
-            server.sword.Attack()
+            player.fire_ball()
+        # if event == CTRL:
+        #     server.sword.Attack()
         pass
 
-    def do(zelda):
+    def do(player):
         pass
         # character.frame = (character.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
         # character.timer -= 1
         # if character.timer == 0:
         #     character.add_event(SLEEP_TIMER)
 
-    def draw(zelda):
-        if zelda.dir == 1:
-            zelda.right.draw(zelda.x, zelda.y)
-            zelda.get_sword_right()
+    def draw(player):
+        if player.dir == 1:
+            player.right.draw(player.x, player.y)
+        elif player.dir == -1:
+            player.left.draw(player.x, player.y)
 
-        elif zelda.dir == -1:
-            zelda.left.draw(zelda.x, zelda.y)
-
-        if zelda.dir == 2:
-            zelda.back.draw(zelda.x, zelda.y)
-        elif zelda.dir == -2:
-            zelda.front.draw(zelda.x, zelda.y)
+        if player.dir == 2:
+            player.back.draw(player.x, player.y)
+        elif player.dir == -2:
+            player.front.draw(player.x, player.y)
 
 
 
 
 class RunState:
 
-    def enter(zelda, event):
+    def enter(player, event):
         if event == RIGHT_DOWN:
-            zelda.velocity_x += RUN_SPEED_PPS
+            player.velocity_x += RUN_SPEED_PPS
         elif event == LEFT_DOWN:
-            zelda.velocity_x -= RUN_SPEED_PPS
+            player.velocity_x -= RUN_SPEED_PPS
         elif event == RIGHT_UP:
-            zelda.velocity_x -= RUN_SPEED_PPS
+            player.velocity_x -= RUN_SPEED_PPS
         elif event == LEFT_UP:
-            zelda.velocity_x += RUN_SPEED_PPS
+            player.velocity_x += RUN_SPEED_PPS
 
         if event == UPKEY_DOWN:
-            zelda.velocity_y += RUN_SPEED_PPS
+            player.velocity_y += RUN_SPEED_PPS
         elif event == UPKEY_UP:
-            zelda.velocity_y -= RUN_SPEED_PPS
+            player.velocity_y -= RUN_SPEED_PPS
         if event == DOWNKEY_DOWN:
-            zelda.velocity_y -= RUN_SPEED_PPS
+            player.velocity_y -= RUN_SPEED_PPS
         elif event == DOWNKEY_UP:
-            zelda.velocity_y += RUN_SPEED_PPS
+            player.velocity_y += RUN_SPEED_PPS
         # zelda.dir = clamp(-1, zelda.velocity_x, 1)
         pass
 
-    def exit(zelda, event):
+    def exit(player, event):
         if event == SPACE:
-            zelda.fire_ball()
+            player.fire_ball()
 
-    def do(zelda):
-        zelda.x += zelda.velocity_x * game_framework.frame_time
-        zelda.x = clamp(25, zelda.x, 800-25)
-        zelda.y += zelda.velocity_y * game_framework.frame_time
-        zelda.y = clamp(25, zelda.y, 600-25)
+    def do(player):
+        player.x += player.velocity_x * game_framework.frame_time
+        player.x = clamp(25, player.x, 800-25)
+        player.y += player.velocity_y * game_framework.frame_time
+        player.y = clamp(25, player.y, 600-25)
 
-        zelda.frame = (zelda.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+        player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
 
 
     @staticmethod
-    def draw(zelda):
-        if zelda.velocity_x > 0:
-            zelda.image.clip_draw(int(zelda.frame) * 46, 0, 46, 50, zelda.x, zelda.y)
-            zelda.dir = 1
-            zelda.get_sword_right()
+    def draw(player):
+        if player.velocity_x > 0:
+            player.image.clip_draw(int(player.frame) * 100, 100, 100, 100, player.x, player.y)
+            player.dir = 1
             # character.image.clip_draw(int(character.frame) * 100, 100, 100, 100, character.x, character.y)
-        elif zelda.velocity_x < 0:
-            zelda.image.clip_draw(int(zelda.frame) * 47, 104, 47, 50, zelda.x, zelda.y)
-            zelda.dir = -1
+        elif player.velocity_x < 0:
+            player.image.clip_draw(int(player.frame) * 100, 0, 100, 100, player.x, player.y)
+            player.dir = -1
             # character.image.clip_draw(int(character.frame) * 100, 0, 100, 100, character.x, character.y)
 
-        if zelda.velocity_y > 0:
-            zelda.image.clip_draw(int(zelda.frame) * 47, 50, 47, 50, zelda.x, zelda.y)
-            zelda.dir = 2
-        elif zelda.velocity_y < 0:
-            zelda.image.clip_draw(int(zelda.frame) * 47, 150, 47, 50, zelda.x, zelda.y)
-            zelda.dir = -2
+        if player.velocity_y > 0:
+            player.image.clip_draw(int(player.frame) * 100, 200, 100, 100, player.x, player.y)
+            player.dir = 2
+        elif player.velocity_y < 0:
+            player.image.clip_draw(int(player.frame) * 100, 300, 100, 100, player.x, player.y)
+            player.dir = -2
 
 
 # class SleepState:
 #
-#     def enter(character, event):
-#         character.frame = 0
+#     def enter(player, event):
+#         player.frame = 0
 #
-#     def exit(character, event):
+#     def exit(player, event):
 #         pass
 #
-#     def do(character):
-#         character.frame = (character.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+#     def do(player):
+#         player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
 #
-#     def draw(character):
-#         if character.dir == 1:
-#             character.image.clip_composite_draw(int(character.frame) * 100, 300, 100, 100, 3.141592 / 2, '', character.x - 25, character.y - 25, 100, 100)
+#     def draw(player):
+#         if player.dir == 1:
+#             player.image.clip_composite_draw(int(player.frame) * 100, 300, 100, 100, 3.141592 / 2, '', player.x - 25, player.y - 25, 100, 100)
 #         else:
-#             character.image.clip_composite_draw(int(character.frame) * 100, 200, 100, 100, -3.141592 / 2, '', character.x + 25, character.y - 25, 100, 100)
+#             player.image.clip_composite_draw(int(player.frame) * 100, 200, 100, 100, -3.141592 / 2, '', player.x + 25, player.y - 25, 100, 100)
 
 
 
@@ -175,17 +172,17 @@ next_state_table = {
 
 
 
-class Character:
+class Player:
 
 
     def __init__(self):
         self.x, self.y = 800 // 2, 90
         # Character is only once created, so instance image loading is fine
-        self.image = load_image('Texture/Character_Sheet.png')
-        self.front = load_image('Texture/zelda/front.png')
-        self.back = load_image('Texture/zelda/back.png')
-        self.right = load_image('Texture/zelda/right.png')
-        self.left = load_image('Texture/zelda/left.png')
+        self.image = load_image('Texture/Player/player_sheet.png')
+        self.front = load_image('Texture/Player/front.png')
+        self.back = load_image('Texture/Player/back.png')
+        self.right = load_image('Texture/Player/right_side.png')
+        self.left = load_image('Texture/Player/left_side.png')
         # self.font = load_font('ENCR10B.TTF', 16)
         self.dir = -2
         self.velocity_x = 0
@@ -229,9 +226,13 @@ class Character:
 
 
 
+
+
     def draw(self):
         self.cur_state.draw(self)
         debug_print('Velcotiy : ' + str(self.velocity_x) + str(self.velocity_y) + ' Dir: ' + str(self.dir))
+
+
         # self.font.draw(self.x - 60, self.y + 50, '(Time: %3.2f)' % get_time(), (255, 255, 0))
         # draw_rectangle(*self.get_bb())
 

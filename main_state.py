@@ -13,6 +13,8 @@ from item import Heart
 from HUD_heart import Hp
 from weapon import Sword
 
+from Player import Player
+
 import server
 
 import title_state
@@ -54,8 +56,11 @@ def enter():
     game_world.add_object(background, 0)
 
 
-    server.character = Character()
-    game_world.add_object(server.character, 1)
+    # server.character = Character()
+    # game_world.add_object(server.character, 1)
+
+    server.player = Player()
+    game_world.add_object(server.player, 1)
 
 
     server.jelly_monsters = [Jelly_Monster() for i in range(1)]
@@ -99,7 +104,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         else:
-            server.character.handle_event(event)
+            server.player.handle_event(event)
 
 
 def update():
@@ -107,22 +112,22 @@ def update():
         game_object.update()
 
 
-    for server.monsters in server.jelly_monsters:
-        if collide(server.monsters, server.character):
-            print('monster collide character')
-
-        # if collide(server.monsters, server.sword):
-        #     print('monster sword collide')
-        #     server.jelly_monsters.remove(server.monsters)
-        #     server.monsters.remove()
-
-
-    for heart in hearts:
-        if collide(server.character, heart):
-            heart.x, heart.y = 0, 0
-            hearts.remove(heart)
-            heart.remove()
-            hud_hp.heart += 1
+    # for server.monsters in server.jelly_monsters:
+    #     if collide(server.monsters, server.character):
+    #         print('monster collide character')
+    #
+    #     # if collide(server.monsters, server.sword):
+    #     #     print('monster sword collide')
+    #     #     server.jelly_monsters.remove(server.monsters)
+    #     #     server.monsters.remove()
+    #
+    #
+    # for heart in hearts:
+    #     if collide(server.character, heart):
+    #         heart.x, heart.y = 0, 0
+    #         hearts.remove(heart)
+    #         heart.remove()
+    #         hud_hp.heart += 1
 
 
 

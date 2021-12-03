@@ -33,6 +33,7 @@ class Sword:
         print('Attack')
         if collision.collide(self, server.monsters):
             print('monster sword collide')
+            server.monsters.x, server.monsters.y = 0, 0
             server.jelly_monsters.remove(server.monsters)
             server.monsters.remove()
         pass
