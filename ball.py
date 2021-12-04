@@ -3,6 +3,9 @@ from pico2d import *
 import game_world
 import game_framework
 
+import collision
+import server
+
 class Ball:
     image = None
 
@@ -23,6 +26,13 @@ class Ball:
     def update(self):
         # self.y -= self.fall_speed * game_framework.frame_time
         self.x += self.fall_speed
+
+        for server.monsters in server.jelly_monsters:
+            if collision.collide(self, server.monsters):
+                server.monsters.x, server.monsters.y = 0, 0
+                server.jelly_monsters.remove(server.monsters)
+                server.monsters.remove()
+                print('ball collide monster')
 
     #fill here for def stop
     def stop(self):

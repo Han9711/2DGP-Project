@@ -27,7 +27,7 @@ C_ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 C_FRAMES_PER_ACTION = 8
 
 # Character Event
-RIGHT_DOWN, LEFT_DOWN, UPKEY_DOWN, DOWNKEY_DOWN, UPKEY_UP, DOWNKEY_UP, RIGHT_UP, LEFT_UP, SLEEP_TIMER, SPACE, CTRL_DOWN, CTRL_UP = range(12)
+RIGHT_DOWN, LEFT_DOWN, UPKEY_DOWN, DOWNKEY_DOWN, UPKEY_UP, DOWNKEY_UP, RIGHT_UP, LEFT_UP, SLEEP_TIMER, SPACE, CTRL_DOWN, CTRL_UP, ONE, TWO, THREE = range(15)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
@@ -40,9 +40,14 @@ key_event_table = {
     (SDL_KEYUP, SDLK_DOWN): DOWNKEY_UP,
     (SDL_KEYDOWN, SDLK_SPACE): SPACE,
     (SDL_KEYDOWN, SDLK_LCTRL): CTRL_DOWN,
-    (SDL_KEYUP, SDLK_LCTRL) : CTRL_UP
+    (SDL_KEYUP, SDLK_LCTRL): CTRL_UP,
+    (SDL_KEYDOWN, SDLK_1): ONE,
+    (SDL_KEYDOWN, SDLK_2): TWO,
+    (SDL_KEYDOWN, SDLK_3): THREE,
 }
 
+# 무기 변화 (1번 칼, 2번 총)
+weapon_state = 0
 
 
 # Character States
@@ -68,6 +73,20 @@ class IdleState:
             player.velocity_y -= RUN_SPEED_PPS
         elif event == DOWNKEY_UP:
             player.velocity_y += RUN_SPEED_PPS
+
+        global weapon_state
+
+        if event == ONE:
+            weapon_state = 1
+
+        elif event == TWO:
+            weapon_state = 2
+
+        elif event == THREE:
+            weapon_state = 3
+
+        print(weapon_state)
+
         player.timer = 1000
 
     def exit(player, event):
@@ -86,15 +105,27 @@ class IdleState:
         #     character.add_event(SLEEP_TIMER)
 
     def draw(player):
-        if player.dir == 1:
-            player.right.draw(player.x, player.y)
-        elif player.dir == -1:
-            player.left.draw(player.x, player.y)
+        if weapon_state == 1:
+            if player.dir == 1:
+                player.right.draw(player.x, player.y)
+            elif player.dir == -1:
+                player.left.draw(player.x, player.y)
 
-        if player.dir == 2:
-            player.back.draw(player.x, player.y)
-        elif player.dir == -2:
-            player.front.draw(player.x, player.y)
+            if player.dir == 2:
+                player.back.draw(player.x, player.y)
+            elif player.dir == -2:
+                player.front.draw(player.x, player.y)
+
+        elif weapon_state == 2:
+            if player.dir == 1:
+                player.right2.draw(player.x, player.y)
+            elif player.dir == -1:
+                player.left2.draw(player.x, player.y)
+
+            if player.dir == 2:
+                player.back2.draw(player.x, player.y)
+            elif player.dir == -2:
+                player.front2.draw(player.x, player.y)
 
 
 
@@ -119,7 +150,7 @@ class RunState:
             player.velocity_y -= RUN_SPEED_PPS
         elif event == DOWNKEY_UP:
             player.velocity_y += RUN_SPEED_PPS
-        # zelda.dir = clamp(-1, zelda.velocity_x, 1)
+
         pass
 
     def exit(player, event):
@@ -137,21 +168,39 @@ class RunState:
 
     @staticmethod
     def draw(player):
-        if player.velocity_x > 0:
-            player.image.clip_draw(int(player.frame) * 100, 500, 100, 100, player.x, player.y)
-            player.dir = 1
-            # character.image.clip_draw(int(character.frame) * 100, 100, 100, 100, character.x, character.y)
-        elif player.velocity_x < 0:
-            player.image.clip_draw(int(player.frame) * 100, 400, 100, 100, player.x, player.y)
-            player.dir = -1
-            # character.image.clip_draw(int(character.frame) * 100, 0, 100, 100, character.x, character.y)
+        if weapon_state == 1:
+            if player.velocity_x > 0:
+                player.image.clip_draw(int(player.frame) * 100, 500, 100, 100, player.x, player.y)
+                player.dir = 1
+                # character.image.clip_draw(int(character.frame) * 100, 100, 100, 100, character.x, character.y)
+            elif player.velocity_x < 0:
+                player.image.clip_draw(int(player.frame) * 100, 400, 100, 100, player.x, player.y)
+                player.dir = -1
+                # character.image.clip_draw(int(character.frame) * 100, 0, 100, 100, character.x, character.y)
 
-        if player.velocity_y > 0:
-            player.image.clip_draw(int(player.frame) * 100, 600, 100, 100, player.x, player.y)
-            player.dir = 2
-        elif player.velocity_y < 0:
-            player.image.clip_draw(int(player.frame) * 100, 700, 100, 100, player.x, player.y)
-            player.dir = -2
+            if player.velocity_y > 0:
+                player.image.clip_draw(int(player.frame) * 100, 600, 100, 100, player.x, player.y)
+                player.dir = 2
+            elif player.velocity_y < 0:
+                player.image.clip_draw(int(player.frame) * 100, 700, 100, 100, player.x, player.y)
+                player.dir = -2
+
+        elif weapon_state == 2:
+            if player.velocity_x > 0:
+                player.image.clip_draw(int(player.frame) * 100, 900, 100, 100, player.x, player.y)
+                player.dir = 1
+                # character.image.clip_draw(int(character.frame) * 100, 100, 100, 100, character.x, character.y)
+            elif player.velocity_x < 0:
+                player.image.clip_draw(int(player.frame) * 100, 800, 100, 100, player.x, player.y)
+                player.dir = -1
+                # character.image.clip_draw(int(character.frame) * 100, 0, 100, 100, character.x, character.y)
+
+            if player.velocity_y > 0:
+                player.image.clip_draw(int(player.frame) * 100, 1000, 100, 100, player.x, player.y)
+                player.dir = 2
+            elif player.velocity_y < 0:
+                player.image.clip_draw(int(player.frame) * 100, 1100, 100, 100, player.x, player.y)
+                player.dir = -2
 
 
 class AttackState:
@@ -195,10 +244,10 @@ class AttackState:
         if player.velocity_x > 0:
             player.image.clip_draw(int(player.frame) * 100, 100, 100, 100, player.x, player.y)
             player.dir = 1
-            player.get_bb()
-            # draw_rectangle(*player.get_bb())
+            player.get_rbb()
+            draw_rectangle(*player.get_rbb())
             for server.monsters in server.jelly_monsters:
-                if collision.collide(player, server.monsters):
+                if collision.sword_collide_right(player, server.monsters):
                     server.monsters.x, server.monsters.y = 0, 0
                     server.jelly_monsters.remove(server.monsters)
                     server.monsters.remove()
@@ -237,19 +286,19 @@ class AttackState:
 
 next_state_table = {
     IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, UPKEY_DOWN: RunState, UPKEY_UP:RunState, DOWNKEY_DOWN:RunState, DOWNKEY_UP: RunState, SPACE: IdleState,
-                CTRL_DOWN: IdleState, CTRL_UP: IdleState},
+                CTRL_DOWN: IdleState, CTRL_UP: IdleState, ONE: IdleState, TWO: IdleState, THREE: IdleState},
 
-    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, UPKEY_UP:IdleState, DOWNKEY_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, UPKEY_DOWN:IdleState, DOWNKEY_DOWN: IdleState, SPACE: RunState, CTRL_DOWN: AttackState,
-               CTRL_UP:RunState},
+    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, UPKEY_UP:IdleState, DOWNKEY_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, UPKEY_DOWN:IdleState, DOWNKEY_DOWN: IdleState, SPACE: RunState, CTRL_DOWN: AttackState, CTRL_UP: AttackState
+               },
 
     AttackState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, UPKEY_UP:IdleState, DOWNKEY_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, UPKEY_DOWN:IdleState, DOWNKEY_DOWN: IdleState, CTRL_DOWN: IdleState, CTRL_UP: IdleState,
-                  RIGHT_UP: RunState, LEFT_UP: RunState, UPKEY_UP:RunState, DOWNKEY_UP: RunState, LEFT_DOWN: RunState, RIGHT_DOWN: RunState, UPKEY_DOWN:RunState, DOWNKEY_DOWN: RunState, CTRL_DOWN: RunState, CTRL_UP: RunState}
+                  RIGHT_UP: RunState, LEFT_UP: RunState, UPKEY_UP:RunState, DOWNKEY_UP: RunState, LEFT_DOWN: RunState, RIGHT_DOWN: RunState, UPKEY_DOWN:RunState, DOWNKEY_DOWN: RunState, CTRL_DOWN: RunState, CTRL_UP: RunState,
+                  CTRL_DOWN: AttackState, CTRL_UP: AttackState}
 }
 
 
 
 class Player:
-
 
     def __init__(self):
         self.x, self.y = 800 // 2, 90
@@ -259,6 +308,12 @@ class Player:
         self.back = load_image('Texture/Player/back_sword_idle.png')
         self.right = load_image('Texture/Player/right_sword_idle.png')
         self.left = load_image('Texture/Player/left_sword_idle.png')
+
+        self.front2 = load_image('Texture/Player/front.png')
+        self.back2 = load_image('Texture/Player/back.png')
+        self.right2 = load_image('Texture/Player/right_side.png')
+        self.left2 = load_image('Texture/Player/left_side.png')
+
         # self.font = load_font('ENCR10B.TTF', 16)
         self.dir = -2
         self.velocity_x = 0
@@ -272,15 +327,14 @@ class Player:
         # 사운드
 
     def fire_ball(self):
-        ball = Ball(self.x, self.y, self.dir*3)
-        game_world.add_object(ball, 1)
+        server.balls = Ball(self.x, self.y, self.dir*3)
+        game_world.add_object(server.balls, 1)
 
         pass
 
 
-    def get_bb(self):
+    def get_rbb(self):
             return self.x + 30, self.y - 10, self.x + 45, self.y + 45
-
             # return self.x - 22, self.y - 22, self.x + 22, self.y + 25
 
 
@@ -289,9 +343,11 @@ class Player:
 
 
     def update(self):
+        # print(self.cur_state)
         self.cur_state.do(self)
         if len(self.event_que) > 0:
             event = self.event_que.pop()
+            print(event)
             self.cur_state.exit(self, event)
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.enter(self, event)
