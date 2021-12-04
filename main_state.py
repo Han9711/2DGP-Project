@@ -12,6 +12,7 @@ from Monster import Jelly_Monster
 from item import Heart
 from HUD_heart import Hp
 from weapon import Sword
+from ball import Ball
 
 from Player import Player
 
@@ -80,8 +81,8 @@ def enter():
 
 
     # global balls
-    # balls = [Ball() for i in range(10)]
-    # game_world.add_objects(balls, 1)
+    server.balls = [Ball() for i in range(10)]
+    game_world.add_objects(server.balls, 1)
 
 
 def exit():
@@ -131,9 +132,7 @@ def update():
 
 
 
-        # hearts.remove(heart)
-        # game_world.remove_object(heart)
-        # hud_hp.heart += 1
+       
 
 
     # character.update()
