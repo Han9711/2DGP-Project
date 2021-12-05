@@ -5,7 +5,7 @@ from Character import *
 class Hp:
 
     def __init__(self):
-        self.x , self.y = 680, 580
+        self.x, self.y = 680, 580
         self.heart_image = load_image('Texture/heart.png')
         self.heart = 3
         self.font = load_font('ENCR10B.TTF', 32)

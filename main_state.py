@@ -130,9 +130,24 @@ def update():
     #         heart.remove()
     #         hud_hp.heart += 1
 
+    for server.monsters in server.jelly_monsters:
+        if collide(server.monsters, server.player):
+            print('monster collide character')
+            server.player.heart -= 1
+            hud_hp.heart -= 1
+
+        # if collide(server.monsters, server.sword):
+        #     print('monster sword collide')
+        #     server.jelly_monsters.remove(server.monsters)
+        #     server.monsters.remove()
 
 
-       
+    for heart in hearts:
+        if collide(server.player, heart):
+            heart.x, heart.y = 0, 0
+            hearts.remove(heart)
+            heart.remove()
+            hud_hp.heart += 1
 
 
     # character.update()

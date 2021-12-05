@@ -23,14 +23,15 @@ class Jelly_Monster:
 
     image = None
 
-    def __init__(self, x=0, y=0):
-        self.x, self.y = x * PIXEL_PER_METER, y * PIXEL_PER_METER
+    def __init__(self):
+        self.x, self.y = 200, 200
         # self.velocity_x = random.randint(0, 10)
         # self.velocity_y = random.randint(0, 10)
         self.frame = 0
         self.dir = random.random() * 2 * math.pi  # random moving direction
         self.speed = 0
         self.timer = 1.0  # change direction every 1 sec when wandering
+        self.build_behavior_tree()
         if Jelly_Monster.image == None:
             Jelly_Monster.image = load_image('Texture/Jellymonster_Sheet.png')
 
@@ -45,9 +46,9 @@ class Jelly_Monster:
 
 
     def find_player(self):
-        distance = (server.boy.x - self.x)**2 + (server.boy.y - self.y)**2
+        distance = (server.player.x - self.x)**2 + (server.player.y - self.y)**2
         if distance < (PIXEL_PER_METER * 10)**2:
-            self.dir = math.atan2(server.boy.y - self.y, server.boy.x - self.x)
+            self.dir = math.atan2(server.player.y - self.y, server.player.x - self.x)
             return BehaviorTree.SUCCESS
         else:
             self.speed = 0
@@ -74,10 +75,10 @@ class Jelly_Monster:
 
     def update(self):
         # self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
-        # self.bt.run()
+        self.bt.run()
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
-        self.x -= self.speed * math.cos(self.dir)*game_framework.frame_time
-        self.y -= self.speed * math.sin(self.dir)*game_framework.frame_time
+        self.x += self.speed * math.cos(self.dir)*game_framework.frame_time
+        self.y += self.speed * math.sin(self.dir)*game_framework.frame_time
         self.x = clamp(60, self.x, get_canvas_width() - 60)
         self.y = clamp(60, self.y, get_canvas_height() - 60)
 

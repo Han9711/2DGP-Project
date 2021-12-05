@@ -408,6 +408,8 @@ class Player:
 
         pass
 
+    def get_bb(self):
+        return self.x - 22, self.y - 22, self.x + 22, self.y + 25
 
     def get_rbb(self):
         return self.x + 40, self.y - 10, self.x + 50, self.y + 30
@@ -437,8 +439,12 @@ class Player:
             event = self.event_que.pop()
             self.cur_state.exit(self, event)
             self.cur_state = next_state_table[self.cur_state][event]
-            print(self.cur_state, event)
+            # print(self.cur_state, event)
             self.cur_state.enter(self, event)
+
+        if self.heart == 0:
+            print('die')
+            pass
 
 
 
@@ -452,7 +458,7 @@ class Player:
     def draw(self):
         self.cur_state.draw(self)
         debug_print('Velcotiy : ' + str(self.velocity_x) + str(self.velocity_y) + ' Dir: ' + str(self.dir))
-        # draw_rectangle(*self.get_bb())
+        draw_rectangle(*self.get_bb())
 
         # self.font.draw(self.x - 60, self.y + 50, '(Time: %3.2f)' % get_time(), (255, 255, 0))
         # draw_rectangle(*self.get_bb())
