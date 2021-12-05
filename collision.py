@@ -35,7 +35,7 @@ def sword_collide_right(a, b):
 
 # 칼 왼쪽
 def sword_collide_left(a, b):
-    left_a, bottom_a, right_a, top_a = a.get_bb()
+    left_a, bottom_a, right_a, top_a = a.get_lbb()
     left_b, bottom_b, right_b, top_b = b.get_bb()
 
     if left_a > right_b: return False
@@ -47,7 +47,7 @@ def sword_collide_left(a, b):
 
 # 칼 위
 def sword_collide_up(a, b):
-    left_a, bottom_a, right_a, top_a = a.get_bb()
+    left_a, bottom_a, right_a, top_a = a.get_upbb()
     left_b, bottom_b, right_b, top_b = b.get_bb()
 
     if left_a > right_b: return False
@@ -59,7 +59,7 @@ def sword_collide_up(a, b):
 
 # 칼 아래
 def sword_collide_down(a, b):
-    left_a, bottom_a, right_a, top_a = a.get_bb()
+    left_a, bottom_a, right_a, top_a = a.get_downbb()
     left_b, bottom_b, right_b, top_b = b.get_bb()
 
     if left_a > right_b: return False

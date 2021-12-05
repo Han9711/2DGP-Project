@@ -47,7 +47,7 @@ key_event_table = {
 }
 
 # 무기 변화 (1번 칼, 2번 총)
-weapon_state = 0
+weapon_state = 1
 
 
 # Character States
@@ -56,6 +56,7 @@ weapon_state = 0
 class IdleState:
 
     def enter(player, event):
+        event == ONE
         if event == RIGHT_DOWN:
             player.velocity_x += RUN_SPEED_PPS
         elif event == LEFT_DOWN:
@@ -246,23 +247,100 @@ class AttackState:
             player.dir = 1
             player.get_rbb()
             draw_rectangle(*player.get_rbb())
+            # 오른쪽 충돌
             for server.monsters in server.jelly_monsters:
                 if collision.sword_collide_right(player, server.monsters):
                     server.monsters.x, server.monsters.y = 0, 0
                     server.jelly_monsters.remove(server.monsters)
                     server.monsters.remove()
-            # character.image.clip_draw(int(character.frame) * 100, 100, 100, 100, character.x, character.y)
+
         elif player.velocity_x < 0:
             player.image.clip_draw(int(player.frame) * 100, 0, 100, 100, player.x, player.y)
             player.dir = -1
-            # character.image.clip_draw(int(character.frame) * 100, 0, 100, 100, character.x, character.y)
+            player.get_lbb()
+            draw_rectangle(*player.get_lbb())
+            # 왼쪽 충돌
+            for server.monsters in server.jelly_monsters:
+                if collision.sword_collide_left(player, server.monsters):
+                    server.monsters.x, server.monsters.y = 0, 0
+                    server.jelly_monsters.remove(server.monsters)
+                    server.monsters.remove()
 
         if player.velocity_y > 0:
             player.image.clip_draw(int(player.frame) * 100, 200, 100, 100, player.x, player.y)
             player.dir = 2
+            player.get_upbb()
+            draw_rectangle(*player.get_upbb())
+            # 위쪽 충돌
+            for server.monsters in server.jelly_monsters:
+                if collision.sword_collide_up(player, server.monsters):
+                    server.monsters.x, server.monsters.y = 0, 0
+                    server.jelly_monsters.remove(server.monsters)
+                    server.monsters.remove()
+
         elif player.velocity_y < 0:
             player.image.clip_draw(int(player.frame) * 100, 300, 100, 100, player.x, player.y)
             player.dir = -2
+            player.get_downbb()
+            draw_rectangle(*player.get_downbb())
+            # 아래쪽 충돌
+            for server.monsters in server.jelly_monsters:
+                if collision.sword_collide_down(player, server.monsters):
+                    server.monsters.x, server.monsters.y = 0, 0
+                    server.jelly_monsters.remove(server.monsters)
+                    server.monsters.remove()
+
+
+        # 플레이어가 가만히있을 때
+        if player.dir == 1:
+            player.image.clip_draw(int(player.frame) * 100, 100, 100, 100, player.x, player.y)
+            player.dir = 1
+            player.get_rbb()
+            draw_rectangle(*player.get_rbb())
+            # 오른쪽 충돌
+            for server.monsters in server.jelly_monsters:
+                if collision.sword_collide_right(player, server.monsters):
+                    server.monsters.x, server.monsters.y = 0, 0
+                    server.jelly_monsters.remove(server.monsters)
+                    server.monsters.remove()
+
+        elif player.dir == -1:
+            player.image.clip_draw(int(player.frame) * 100, 0, 100, 100, player.x, player.y)
+            player.dir = -1
+            player.get_lbb()
+            draw_rectangle(*player.get_lbb())
+            # 왼쪽 충돌
+            for server.monsters in server.jelly_monsters:
+                if collision.sword_collide_left(player, server.monsters):
+                    server.monsters.x, server.monsters.y = 0, 0
+                    server.jelly_monsters.remove(server.monsters)
+                    server.monsters.remove()
+
+        if player.dir == 2:
+            player.image.clip_draw(int(player.frame) * 100, 200, 100, 100, player.x, player.y)
+            player.dir = 2
+            player.get_upbb()
+            draw_rectangle(*player.get_upbb())
+            # 위쪽 충돌
+            for server.monsters in server.jelly_monsters:
+                if collision.sword_collide_up(player, server.monsters):
+                    server.monsters.x, server.monsters.y = 0, 0
+                    server.jelly_monsters.remove(server.monsters)
+                    server.monsters.remove()
+
+        elif player.dir == -2:
+            player.image.clip_draw(int(player.frame) * 100, 300, 100, 100, player.x, player.y)
+            player.dir = -2
+            player.get_downbb()
+            draw_rectangle(*player.get_downbb())
+            # 아래쪽 충돌
+            for server.monsters in server.jelly_monsters:
+                if collision.sword_collide_down(player, server.monsters):
+                    server.monsters.x, server.monsters.y = 0, 0
+                    server.jelly_monsters.remove(server.monsters)
+                    server.monsters.remove()
+
+
 
 
 # class SleepState:
@@ -286,19 +364,17 @@ class AttackState:
 
 next_state_table = {
     IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, UPKEY_DOWN: RunState, UPKEY_UP:RunState, DOWNKEY_DOWN:RunState, DOWNKEY_UP: RunState, SPACE: IdleState,
-                CTRL_DOWN: IdleState, CTRL_UP: IdleState, ONE: IdleState, TWO: IdleState, THREE: IdleState},
+                CTRL_DOWN: AttackState, CTRL_UP: IdleState, ONE: IdleState, TWO: IdleState, THREE: IdleState},
 
-    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, UPKEY_UP:IdleState, DOWNKEY_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, UPKEY_DOWN:IdleState, DOWNKEY_DOWN: IdleState, SPACE: RunState, CTRL_DOWN: AttackState, CTRL_UP: AttackState
+    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, UPKEY_UP:IdleState, DOWNKEY_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, UPKEY_DOWN:IdleState, DOWNKEY_DOWN: IdleState, SPACE: RunState, CTRL_DOWN: AttackState, CTRL_UP: RunState
                },
 
-    AttackState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, UPKEY_UP:IdleState, DOWNKEY_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, UPKEY_DOWN:IdleState, DOWNKEY_DOWN: IdleState, CTRL_DOWN: IdleState, CTRL_UP: IdleState,
-                  RIGHT_UP: RunState, LEFT_UP: RunState, UPKEY_UP:RunState, DOWNKEY_UP: RunState, LEFT_DOWN: RunState, RIGHT_DOWN: RunState, UPKEY_DOWN:RunState, DOWNKEY_DOWN: RunState, CTRL_DOWN: RunState, CTRL_UP: RunState,
-                  CTRL_DOWN: AttackState, CTRL_UP: AttackState}
+    AttackState: {RIGHT_DOWN: RunState, CTRL_UP: RunState, CTRL_UP: IdleState }
 }
 
 
-
 class Player:
+
 
     def __init__(self):
         self.x, self.y = 800 // 2, 90
@@ -327,15 +403,27 @@ class Player:
         # 사운드
 
     def fire_ball(self):
-        server.balls = Ball(self.x, self.y, self.dir*3)
+        server.balls = Ball(self.x, self.y, self.dir*10)
         game_world.add_object(server.balls, 1)
 
         pass
 
 
     def get_rbb(self):
-            return self.x + 30, self.y - 10, self.x + 45, self.y + 45
-            # return self.x - 22, self.y - 22, self.x + 22, self.y + 25
+        return self.x + 40, self.y - 10, self.x + 50, self.y + 30
+        # return self.x - 22, self.y - 22, self.x + 22, self.y + 25
+
+    def get_lbb(self):
+        return self.x - 40, self.y - 10, self.x - 50, self.y + 30
+        pass
+
+    def get_upbb(self):
+        return self.x - 30, self.y + 40, self.x + 30, self.y + 50
+        pass
+
+    def get_downbb(self):
+        return self.x - 30, self.y - 30, self.x + 30, self.y - 40
+        pass
 
 
     def add_event(self, event):
@@ -347,9 +435,9 @@ class Player:
         self.cur_state.do(self)
         if len(self.event_que) > 0:
             event = self.event_que.pop()
-            print(event)
             self.cur_state.exit(self, event)
             self.cur_state = next_state_table[self.cur_state][event]
+            print(self.cur_state, event)
             self.cur_state.enter(self, event)
 
 
