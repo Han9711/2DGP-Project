@@ -363,13 +363,14 @@ class AttackState:
 
 
 next_state_table = {
-    IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, UPKEY_DOWN: RunState, UPKEY_UP:RunState, DOWNKEY_DOWN:RunState, DOWNKEY_UP: RunState, SPACE: IdleState,
+    IdleState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, UPKEY_DOWN: RunState, UPKEY_UP:IdleState, DOWNKEY_DOWN:RunState, DOWNKEY_UP: IdleState, SPACE: IdleState,
                 CTRL_DOWN: AttackState, CTRL_UP: IdleState, ONE: IdleState, TWO: IdleState, THREE: IdleState},
 
-    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, UPKEY_UP:IdleState, DOWNKEY_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, UPKEY_DOWN:IdleState, DOWNKEY_DOWN: IdleState, SPACE: RunState, CTRL_DOWN: AttackState, CTRL_UP: RunState
-               },
+    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, UPKEY_UP:IdleState, DOWNKEY_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, UPKEY_DOWN:IdleState, DOWNKEY_DOWN: IdleState, SPACE: RunState,
+               CTRL_DOWN: AttackState, CTRL_UP: RunState},
 
-    AttackState: {RIGHT_DOWN: RunState, CTRL_UP: RunState, CTRL_UP: IdleState }
+    AttackState: {RIGHT_DOWN: AttackState, RIGHT_UP: AttackState, LEFT_DOWN: AttackState, LEFT_UP: AttackState, UPKEY_DOWN: AttackState, UPKEY_UP: AttackState, DOWNKEY_DOWN: AttackState, DOWNKEY_UP: AttackState,
+                  CTRL_UP: IdleState, CTRL_DOWN: AttackState}
 }
 
 
@@ -412,19 +413,19 @@ class Player:
         return self.x - 22, self.y - 22, self.x + 22, self.y + 25
 
     def get_rbb(self):
-        return self.x + 40, self.y - 10, self.x + 50, self.y + 30
+        return self.x + 30, self.y - 10, self.x + 50, self.y + 30
         # return self.x - 22, self.y - 22, self.x + 22, self.y + 25
 
     def get_lbb(self):
-        return self.x - 40, self.y - 10, self.x - 50, self.y + 30
+        return self.x - 30, self.y - 10, self.x - 50, self.y + 30
         pass
 
     def get_upbb(self):
-        return self.x - 30, self.y + 40, self.x + 30, self.y + 50
+        return self.x - 30, self.y + 30, self.x + 30, self.y + 50
         pass
 
     def get_downbb(self):
-        return self.x - 30, self.y - 30, self.x + 30, self.y - 40
+        return self.x - 30, self.y - 25, self.x + 30, self.y - 40
         pass
 
 
@@ -433,13 +434,12 @@ class Player:
 
 
     def update(self):
-        # print(self.cur_state)
         self.cur_state.do(self)
         if len(self.event_que) > 0:
             event = self.event_que.pop()
             self.cur_state.exit(self, event)
             self.cur_state = next_state_table[self.cur_state][event]
-            # print(self.cur_state, event)
+            print(self.cur_state, event)
             self.cur_state.enter(self, event)
 
         if self.heart == 0:
@@ -449,7 +449,7 @@ class Player:
 
 
     def Attack(self):
-        print('공격')
+
         pass
 
 

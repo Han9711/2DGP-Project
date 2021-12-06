@@ -76,9 +76,9 @@ class Jelly_Monster:
     def update(self):
         # self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
         self.bt.run()
-        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
-        self.x += self.speed * math.cos(self.dir)*game_framework.frame_time
-        self.y += self.speed * math.sin(self.dir)*game_framework.frame_time
+        # self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
+        # self.x += self.speed * math.cos(self.dir)*game_framework.frame_time
+        # self.y += self.speed * math.sin(self.dir)*game_framework.frame_time
         self.x = clamp(60, self.x, get_canvas_width() - 60)
         self.y = clamp(60, self.y, get_canvas_height() - 60)
 
