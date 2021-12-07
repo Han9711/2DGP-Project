@@ -9,9 +9,9 @@ import server
 class Bullet:
     image = None
 
-    def __init__(self, x = -1000, y = -1000, velocity = 1):
-        # if Ball.image == None:
-        #     Ball.image = load_image('Texture/ball21x21.png')
+    def __init__(self, x = 0, y = 0, velocity = 1):
+        if Bullet.image == None:
+            Bullet.image = load_image('Texture/bullet.png')
         self.x, self.y, self.fall_speed = x, y, velocity
 
     def get_bb(self):
@@ -19,7 +19,7 @@ class Bullet:
         return self.x - 10, self.y - 10, self.x + 10, self.y + 10
 
     def draw(self):
-        self.image.draw(self.x, self.y)
+        self.image.draw(self.x, self.y, 20, 20)
         # fill here for draw
         draw_rectangle(*self.get_bb())
 

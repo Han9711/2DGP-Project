@@ -4,5 +4,6 @@ monsters = []
 jelly_monsters = []
 
 balls = []
+bullets = []
 
 player = None

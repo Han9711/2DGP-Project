@@ -11,6 +11,8 @@ class Hp:
         self.font = load_font('ENCR10B.TTF', 32)
 
     def update(self):
+        if abs(self.heart) >= 3:
+            self.heart = 3
         pass
 
     def draw(self):

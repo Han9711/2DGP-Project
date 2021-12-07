@@ -3,6 +3,7 @@ import game_framework
 import game_world
 
 from ball import Ball
+from bullet import Bullet
 
 import server
 import collision
@@ -27,7 +28,7 @@ C_ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 C_FRAMES_PER_ACTION = 8
 
 # Character Event
-RIGHT_DOWN, LEFT_DOWN, UPKEY_DOWN, DOWNKEY_DOWN, UPKEY_UP, DOWNKEY_UP, RIGHT_UP, LEFT_UP, SLEEP_TIMER, SPACE, CTRL_DOWN, CTRL_UP, ONE, TWO, THREE = range(15)
+RIGHT_DOWN, LEFT_DOWN, UPKEY_DOWN, DOWNKEY_DOWN, UPKEY_UP, DOWNKEY_UP, RIGHT_UP, LEFT_UP, SLEEP_TIMER, SPACE, CTRL_DOWN, CTRL_UP, ONE, TWO, THREE, LEFT_CLICK = range(16)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
@@ -44,6 +45,7 @@ key_event_table = {
     (SDL_KEYDOWN, SDLK_1): ONE,
     (SDL_KEYDOWN, SDLK_2): TWO,
     (SDL_KEYDOWN, SDLK_3): THREE,
+    (SDL_BUTTON_LEFT): LEFT_CLICK
 }
 
 # 무기 변화 (1번 칼, 2번 총)
@@ -91,11 +93,11 @@ class IdleState:
         player.timer = 1000
 
     def exit(player, event):
-        if event == SPACE:
-            player.fire_ball()
+        if event == LEFT_CLICK:
+            print('click')
+            player.fire_bullet()
         if event == CTRL_DOWN:
             print('ctrl pressed')
-            player.Attack()
         pass
 
     def do(player):
@@ -156,7 +158,7 @@ class RunState:
 
     def exit(player, event):
         if event == SPACE:
-            player.fire_ball()
+            player.fire_bullet()
 
     def do(player):
         player.x += player.velocity_x * game_framework.frame_time
@@ -403,10 +405,9 @@ class Player:
 
         # 사운드
 
-    def fire_ball(self):
-        server.balls = Ball(self.x, self.y, self.dir*10)
-        game_world.add_object(server.balls, 1)
-
+    def fire_bullet(self):
+        server.bullets = Bullet(self.x+10, self.y-5, self.dir*20)
+        game_world.add_object(server.bullets, 1)
         pass
 
     def get_bb(self):
